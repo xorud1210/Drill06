@@ -22,18 +22,42 @@ def handle_events():
             running = False
 
 def move_character():
-    pass
+    global frame, pos_cha, pos_hand
+    x1, y1 = pos_hand[0]
+    x2, y2 = pos_hand[1]
+    pos_hand.remove(pos_hand[0])
+    for i in range(0, 100, 1):
+        handle_events()
+        t = i / 100
+
+        x = (1 - t) * x1 + t * x2
+        y = (1 - t) * y1 + t * y2
+
+        clear_canvas()
+        TUK_ground.draw(TUK_WIDTH // 2, TUK_HEIGHT // 2)
+        for x_h, y_h in pos_hand:
+            hand.draw(x_h, y_h)
+        character.clip_draw(frame * 100, 100 * 1, 100, 100, x, y)
+        update_canvas()
+        frame = (frame + 1) % 8
+        delay(0.01)
+    pos_cha = pos_hand[0]
 
 
 running = True
-pos_hand = [(TUK_WIDTH / 2, TUK_HEIGHT / 2)]
+pos_cha = (TUK_WIDTH // 2, TUK_HEIGHT // 2)
+pos_hand = [(TUK_WIDTH // 2, TUK_HEIGHT // 2)]
+frame = 0
 
 while running:
     handle_events()
-    move_character()
-    clear_canvas()
-    TUK_ground.draw(TUK_WIDTH // 2, TUK_HEIGHT // 2)
-    for x, y in pos_hand:
-        hand.draw(x,y)
-    update_canvas()
+    if(len(pos_hand) > 1):
+        move_character()
+    else:
+        clear_canvas()
+        TUK_ground.draw(TUK_WIDTH // 2, TUK_HEIGHT // 2)
+        character.clip_draw(frame * 100, 100 * 2, 100, 100, pos_cha[0], pos_cha[1])
+        update_canvas()
+        frame = (frame + 1) % 8
+        delay(0.01)
 close_canvas()
