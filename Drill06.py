@@ -37,7 +37,10 @@ def move_character():
         TUK_ground.draw(TUK_WIDTH // 2, TUK_HEIGHT // 2)
         for x_h, y_h in pos_hand:
             hand.draw(x_h, y_h)
-        character.clip_draw(frame * 100, 100 * 1, 100, 100, x, y)
+        if (x1 < x2):  # 오른쪽으로 갈때:
+            character.clip_draw(frame * 100, 100 * 1, 100, 100, x, y)
+        else:
+            character.clip_draw(frame * 100, 100 * 0, 100, 100, x, y)
         update_canvas()
         frame = (frame + 1) % 8
         delay(0.01)
