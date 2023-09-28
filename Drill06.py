@@ -37,10 +37,10 @@ def move_character():
         TUK_ground.draw(TUK_WIDTH // 2, TUK_HEIGHT // 2)
         for x_h, y_h in pos_hand:
             hand.draw(x_h, y_h)
-        if (x1 < x2):  # 오른쪽으로 갈때:
+        if (x1 < x2):  # 오른쪽으로 갈때
             left = False
             character.clip_draw(frame * 100, 100 * 1, 100, 100, x, y)
-        else:
+        else:          # 왼쪽으로 갈때
             left = True
             character.clip_draw(frame * 100, 100 * 0, 100, 100, x, y)
         update_canvas()
@@ -59,12 +59,12 @@ while running:
     handle_events()
     if(len(pos_hand) > 1):
         move_character()
-    else:
+    else:       # 마우스 입력이 없을때 -> idle
         clear_canvas()
         TUK_ground.draw(TUK_WIDTH // 2, TUK_HEIGHT // 2)
-        if left:
+        if left:        # 왼쪽 idle 애니메이션
             character.clip_draw(frame * 100, 100 * 2, 100, 100, pos_cha[0], pos_cha[1])
-        else:
+        else:           # 오른쪽 idle 애니메이션
             character.clip_draw(frame * 100, 100 * 3, 100, 100, pos_cha[0], pos_cha[1])
         update_canvas()
         frame = (frame + 1) % 8
