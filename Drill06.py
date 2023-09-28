@@ -22,7 +22,7 @@ def handle_events():
             running = False
 
 def move_character():
-    global frame, pos_cha, pos_hand
+    global frame, pos_cha, pos_hand, left
     x1, y1 = pos_hand[0]
     x2, y2 = pos_hand[1]
     pos_hand.remove(pos_hand[0])
@@ -38,8 +38,10 @@ def move_character():
         for x_h, y_h in pos_hand:
             hand.draw(x_h, y_h)
         if (x1 < x2):  # 오른쪽으로 갈때:
+            left = False
             character.clip_draw(frame * 100, 100 * 1, 100, 100, x, y)
         else:
+            left = True
             character.clip_draw(frame * 100, 100 * 0, 100, 100, x, y)
         update_canvas()
         frame = (frame + 1) % 8
@@ -48,6 +50,7 @@ def move_character():
 
 
 running = True
+left = True
 pos_cha = (TUK_WIDTH // 2, TUK_HEIGHT // 2)
 pos_hand = [(TUK_WIDTH // 2, TUK_HEIGHT // 2)]
 frame = 0
@@ -59,8 +62,11 @@ while running:
     else:
         clear_canvas()
         TUK_ground.draw(TUK_WIDTH // 2, TUK_HEIGHT // 2)
-        character.clip_draw(frame * 100, 100 * 2, 100, 100, pos_cha[0], pos_cha[1])
+        if left:
+            character.clip_draw(frame * 100, 100 * 2, 100, 100, pos_cha[0], pos_cha[1])
+        else:
+            character.clip_draw(frame * 100, 100 * 3, 100, 100, pos_cha[0], pos_cha[1])
         update_canvas()
         frame = (frame + 1) % 8
-        delay(0.01)
+        delay(0.05)
 close_canvas()
